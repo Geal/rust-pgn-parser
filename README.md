@@ -1,0 +1,1 @@
+A [Portable Game Notation](https://en.wikipedia.org/wiki/Portable_Game_Notation) (PGN) parser written in Rust

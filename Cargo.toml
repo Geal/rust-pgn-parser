@@ -1,0 +1,8 @@
+[package]
+name = "png-parser"
+version = "0.1.0"
+authors = ["Jean-Christophe Sirot <jcsirot@gmail.com>"]
+
+[dependencies]
+nom = "~0.3.0"
+regex = "0.1.8"
