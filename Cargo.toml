@@ -1,7 +1,12 @@
 [package]
-name = "png-parser"
+name = "pgn-parser"
 version = "0.1.0"
 authors = ["Jean-Christophe Sirot <jcsirot@gmail.com>"]
+homepage = "https://github.com/jcsirot/rust-pgn-parser"
+repository = "https://github.com/jcsirot/rust-pgn-parser"
+
+[lib]
+name = "pgnparser"
 
 [dependencies]
 nom = "~0.3.0"
