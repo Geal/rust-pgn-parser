@@ -8,7 +8,7 @@ extern crate regex;
 use std::str;
 use std::result::Result;
 use std::collections::hash_map::HashMap;
-use nom::{IResult, digit, multispace, is_alphanumeric};
+use nom::{IResult, ErrorKind, digit, multispace, is_alphanumeric};
 use nom::IResult::*;
 use nom::Err::*;
 use regex::Regex;
@@ -127,7 +127,7 @@ fn pawn_move(input:&[u8]) -> IResult<&[u8], HalfMove > {
                         promotion: cap.at(2).map(Piece::from_str)
                     });
     }
-    return Error(Position(0, input));
+    return Error(Position(ErrorKind::Custom(0), input));
 }
 
 fn pawn_capture(input:&[u8]) -> IResult<&[u8], HalfMove> {
@@ -154,7 +154,7 @@ fn pawn_capture(input:&[u8]) -> IResult<&[u8], HalfMove> {
                         promotion: cap.at(3).map(Piece::from_str)
                     });
     }
-    return Error(Position(0, input));
+    return Error(Position(ErrorKind::Custom(0), input));
 }
 
 fn piece_move(input:&[u8]) -> IResult<&[u8], HalfMove > {
@@ -182,7 +182,7 @@ fn piece_move(input:&[u8]) -> IResult<&[u8], HalfMove > {
                         promotion: None
                     });
     }
-    return Error(Position(0, input));
+    return Error(Position(ErrorKind::Custom(0), input));
 }
 
 named!(san<&[u8], HalfMove>,
@@ -191,8 +191,8 @@ named!(san<&[u8], HalfMove>,
                pawn_move |
                pawn_capture |
                piece_move |
-               tag!("O-O-O") =>  { |_| return HalfMove::QueensideCastling } |
-               tag!("O-O") => { |_| return HalfMove::KingsideCastling }
+               complete!(tag!("O-O-O")) =>  { |_| return HalfMove::QueensideCastling } |
+               complete!(tag!("O-O")) => { |_| return HalfMove::KingsideCastling }
            ) ~
            multispace,
            || s)
